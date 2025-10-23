@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
-import { CommonModule, NgOptimizedImage, CurrencyPipe } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Product } from '../../../core/services/product.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { Product } from '../../../core/services/product.service';
   templateUrl: './product-card.component.html',
   styleUrls: ['./product-card.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, NgOptimizedImage, CurrencyPipe]
+  imports: [CommonModule, NgOptimizedImage]
 })
 export class ProductCardComponent {
   product = input.required<Product>();

@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { CommonModule, NgOptimizedImage, CurrencyPipe } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../core/services/cart.service';
 import { NotificationService } from '../../core/services/notification.service';
@@ -9,7 +9,7 @@ import { NotificationService } from '../../core/services/notification.service';
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, RouterLink, NgOptimizedImage, CurrencyPipe]
+  imports: [CommonModule, RouterLink, NgOptimizedImage]
 })
 export class CartComponent {
   cartService = inject(CartService);

@@ -7,7 +7,7 @@
       <h3 class="text-xl font-bold text-gold mb-2">{{ p.name }}</h3>
       <p class="text-brand-light/80 mb-4 flex-grow">{{ p.description }}</p>
       <div class="flex items-center justify-between mt-auto">
-        <p class="text-2xl font-light text-white">{{ p.price | currency:'EUR' }}</p>
+        <p class="text-2xl font-light text-white">{{ p.price.toFixed(2) }} €</p>
         <button (click)="onAddToCart()" class="bg-gold text-brand-dark font-bold py-2 px-4 rounded-full hover:bg-yellow-300 transition-transform transform hover:scale-105 duration-300">
           Do košíka
         </button>
