@@ -7,15 +7,17 @@ export class AuthService {
   isAuthenticated = signal<boolean>(false);
 
   constructor() {
-    // In a real app, you would check localStorage or a token here
+    const storedAuth = localStorage.getItem('isAuthenticated');
+    this.isAuthenticated.set(storedAuth === 'true');
   }
 
   login() {
-    // Simulate a login
     this.isAuthenticated.set(true);
+    localStorage.setItem('isAuthenticated', 'true');
   }
 
   logout() {
     this.isAuthenticated.set(false);
+    localStorage.removeItem('isAuthenticated');
   }
 }

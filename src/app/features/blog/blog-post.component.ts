@@ -4,13 +4,14 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BlogService, BlogPost } from '../../core/services/blog.service';
 import { switchMap, finalize, filter, tap } from 'rxjs';
 import { SeoService } from '../../core/services/seo.service';
+import { SafeHtmlPipe } from '../../shared/pipes/safe-html.pipe';
 
 @Component({
   selector: 'app-blog-post',
   templateUrl: './blog-post.component.html',
   styleUrls: ['./blog-post.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, RouterLink]
+  imports: [CommonModule, RouterLink, SafeHtmlPipe]
 })
 export class BlogPostComponent {
   private route = inject(ActivatedRoute);

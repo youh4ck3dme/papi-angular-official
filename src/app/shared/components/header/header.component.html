@@ -1,21 +1,21 @@
-<header class="bg-brand-dark/80 backdrop-blur-sm sticky top-0 z-50 shadow-lg shadow-gold/10">
+<header class="bg-white sticky top-0 z-50 shadow-md">
   <nav class="container mx-auto px-6 py-4">
     <div class="flex items-center justify-between">
       <a routerLink="/" class="text-2xl font-bold text-gold tracking-wider flex items-center">
-        <img [ngSrc]="logoUrl" alt="PAPI Hair Design Logo" class="h-10 mr-3" width="160" height="40" priority>
+        <img [ngSrc]="logoUrl" alt="PAPI Hair Design Logo" class="h-10 w-auto" width="160" height="40" priority>
       </a>
       
       <!-- Desktop Menu -->
       <div class="hidden md:flex items-center space-x-6">
         @for(link of navLinks; track link.path) {
-          <a [routerLink]="link.path" routerLinkActive="text-gold border-b-2 border-gold" [routerLinkActiveOptions]="{exact: link.path === '/'}" class="text-brand-light hover:text-gold transition-colors duration-300 pb-1">{{ link.label }}</a>
+          <a [routerLink]="link.path" routerLinkActive="text-gold border-b-2 border-gold" [routerLinkActiveOptions]="{exact: link.path === '/'}" class="text-brand-dark hover:text-gold transition-colors duration-300 pb-1">{{ link.label }}</a>
         }
-        <a routerLink="/login" routerLinkActive="text-gold" class="text-brand-light hover:text-gold transition-colors duration-300">Prihlásenie</a>
+        <a routerLink="/login" routerLinkActive="text-gold" class="text-brand-dark hover:text-gold transition-colors duration-300">Prihlásenie</a>
       </div>
 
       <!-- Mobile Menu Button -->
       <div class="md:hidden">
-        <button (click)="toggleMenu()" class="text-brand-light focus:outline-none" [attr.aria-expanded]="isMenuOpen()" aria-controls="mobile-menu">
+        <button (click)="toggleMenu()" class="text-brand-dark focus:outline-none" [attr.aria-expanded]="isMenuOpen()" aria-controls="mobile-menu">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
           </svg>
@@ -26,12 +26,12 @@
 
   <!-- Mobile Menu -->
   @if (isMenuOpen()) {
-    <div id="mobile-menu" class="md:hidden absolute top-full left-0 w-full bg-brand-dark shadow-xl">
+    <div id="mobile-menu" class="md:hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-gray-200">
       <div class="flex flex-col items-center space-y-4 py-6">
         @for(link of navLinks; track link.path) {
-          <a [routerLink]="link.path" routerLinkActive="text-gold" [routerLinkActiveOptions]="{exact: link.path === '/'}" (click)="closeMenu()" class="text-lg text-brand-light hover:text-gold transition-colors duration-300">{{ link.label }}</a>
+          <a [routerLink]="link.path" routerLinkActive="text-gold" [routerLinkActiveOptions]="{exact: link.path === '/'}" (click)="closeMenu()" class="text-lg text-brand-dark hover:text-gold transition-colors duration-300">{{ link.label }}</a>
         }
-        <a routerLink="/login" routerLinkActive="text-gold" (click)="closeMenu()" class="text-lg text-brand-light hover:text-gold transition-colors duration-300">Prihlásenie</a>
+        <a routerLink="/login" routerLinkActive="text-gold" (click)="closeMenu()" class="text-lg text-brand-dark hover:text-gold transition-colors duration-300">Prihlásenie</a>
       </div>
     </div>
   }

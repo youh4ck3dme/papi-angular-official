@@ -13,7 +13,7 @@
           <span>Publikované: {{ post()?.publishDate }}</span> | <span>Autor: {{ post()?.author }}</span>
         </div>
       </div>
-      <div class="prose prose-invert prose-lg max-w-none text-brand-light/90" [innerHTML]="post()?.content"></div>
+      <div class="prose prose-invert prose-lg max-w-none text-brand-light/90" [innerHTML]="post()?.content | safeHtml"></div>
     </article>
   } @else {
     <div class="text-center">

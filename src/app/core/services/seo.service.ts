@@ -28,13 +28,13 @@ export class SeoService implements OnDestroy {
       switchMap(route => route.data),
       takeUntil(this.destroy$)
     ).subscribe(data => {
-      const title = data['title'] || 'Luxe Salon';
+      const title = data['title'] || 'PAPI Hair Design';
       this.updateTitle(title);
     });
   }
 
   updateTitle(title: string) {
-    this.titleService.setTitle(`${title} | Luxe Salon`);
+    this.titleService.setTitle(`${title} | PAPI Hair Design`);
   }
 
   updateMetaTags(config: { description: string, image?: string }) {

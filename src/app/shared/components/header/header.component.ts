@@ -14,7 +14,7 @@ export class HeaderComponent {
   authService = inject(AuthService);
   isMenuOpen = signal(false);
 
-  logoUrl = 'https://www.papihairdesign.sk/wp-content/uploads/2024/04/papihairdesign-logo.png';
+  logoUrl = 'https://services.bookio.com/image/e123babb-6e76-48d1-b1a1-93ba592c7125';
 
   navLinks = [
     { path: '/', label: 'Domov' },
