@@ -3,9 +3,22 @@
   <p class="text-lg text-brand-light/80 mb-8">Táto sekcia je určená pre administrátorov.</p>
   
   <div class="bg-black/30 p-8 rounded-lg shadow-lg">
-    <p class="mb-6">Kliknutím na tlačidlo sa prihlásite do administrátorského rozhrania.</p>
-    <button (click)="login()" class="w-full bg-gold text-brand-dark font-bold py-3 px-8 rounded-full hover:bg-yellow-300 transition-all duration-300 shadow-lg shadow-gold/20">
-      Prihlásiť sa
-    </button>
+    <form (ngSubmit)="login()" class="space-y-6">
+      <div>
+        <label for="password" class="block text-sm font-medium text-brand-light/80 text-left mb-2">Heslo</label>
+        <input 
+          type="password" 
+          id="password"
+          name="password"
+          [(ngModel)]="password"
+          class="w-full bg-brand-dark/50 border border-gray-600 rounded-md p-3 text-white focus:ring-gold focus:border-gold"
+          placeholder="••••••••"
+          required
+        >
+      </div>
+      <button type="submit" class="w-full bg-gold text-brand-dark font-bold py-3 px-8 rounded-full hover:bg-yellow-300 transition-all duration-300 shadow-lg shadow-gold/20">
+        Prihlásiť sa
+      </button>
+    </form>
   </div>
 </div>
