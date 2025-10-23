@@ -1,13 +1,16 @@
 <header class="bg-brand-dark/80 backdrop-blur-sm sticky top-0 z-50 shadow-lg shadow-gold/10">
   <nav class="container mx-auto px-6 py-4">
     <div class="flex items-center justify-between">
-      <a routerLink="/" class="text-2xl font-bold text-gold tracking-wider">LUXE SALON</a>
+      <a routerLink="/" class="text-2xl font-bold text-gold tracking-wider flex items-center">
+        <img [ngSrc]="logoUrl" alt="PAPI Hair Design Logo" class="h-10 mr-3" width="160" height="40" priority>
+      </a>
       
       <!-- Desktop Menu -->
-      <div class="hidden md:flex items-center space-x-8">
+      <div class="hidden md:flex items-center space-x-6">
         @for(link of navLinks; track link.path) {
           <a [routerLink]="link.path" routerLinkActive="text-gold border-b-2 border-gold" [routerLinkActiveOptions]="{exact: link.path === '/'}" class="text-brand-light hover:text-gold transition-colors duration-300 pb-1">{{ link.label }}</a>
         }
+        <a routerLink="/login" routerLinkActive="text-gold" class="text-brand-light hover:text-gold transition-colors duration-300">Prihlásenie</a>
       </div>
 
       <!-- Mobile Menu Button -->
@@ -28,6 +31,7 @@
         @for(link of navLinks; track link.path) {
           <a [routerLink]="link.path" routerLinkActive="text-gold" [routerLinkActiveOptions]="{exact: link.path === '/'}" (click)="closeMenu()" class="text-lg text-brand-light hover:text-gold transition-colors duration-300">{{ link.label }}</a>
         }
+        <a routerLink="/login" routerLinkActive="text-gold" (click)="closeMenu()" class="text-lg text-brand-light hover:text-gold transition-colors duration-300">Prihlásenie</a>
       </div>
     </div>
   }

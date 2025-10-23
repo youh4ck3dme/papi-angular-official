@@ -1,5 +1,5 @@
 {
-  "name": "Luxe Salon - AI Virtual Try-On",
-  "description": "An elegant Progressive Web App for a luxury hair salon, featuring an AI-powered virtual try-on experience using Gemini. Explore services, styles, and see your new look instantly.",
+  "name": "PAPI Hair Design",
+  "description": "Oficiálna PWA aplikácia pre kadernícky salón PAPI Hair Design. Objavte naše služby, prečítajte si náš príbeh a zarezervujte si termín.",
   "requestFramePermissions": []
 }

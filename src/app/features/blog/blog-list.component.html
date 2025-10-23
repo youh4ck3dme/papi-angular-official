@@ -1,0 +1,25 @@
+<div class="max-w-4xl mx-auto">
+  <div class="text-center mb-12">
+    <h1 class="text-4xl font-bold text-gold mb-2">Náš Blog</h1>
+    <p class="text-lg text-brand-light/80">Novinky, príbehy a tipy zo sveta PAPI Hair Design.</p>
+  </div>
+
+  @if (isLoading()) {
+    <div class="text-center">Načítavam príspevky...</div>
+  } @else {
+    <div class="space-y-8">
+      @for (post of posts(); track post.id) {
+        <article class="bg-black/30 p-6 rounded-lg shadow-lg hover:shadow-gold/20 transition-shadow duration-300">
+          <h2 class="text-2xl font-bold text-gold mb-2">
+            <a [routerLink]="['/blog', post.slug]" class="hover:underline">{{ post.title }}</a>
+          </h2>
+          <div class="text-sm text-brand-light/60 mb-4">
+            <span>Publikované: {{ post.publishDate }}</span> | <span>Autor: {{ post.author }}</span>
+          </div>
+          <p class="text-brand-light/80">{{ post.perex }}</p>
+          <a [routerLink]="['/blog', post.slug]" class="inline-block mt-4 text-gold font-semibold hover:underline">Čítať viac &rarr;</a>
+        </article>
+      }
+    </div>
+  }
+</div>

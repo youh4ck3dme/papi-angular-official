@@ -1,5 +1,5 @@
-import { Component, ChangeDetectionStrategy, signal, effect, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy, signal, inject } from '@angular/core';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
@@ -8,17 +8,21 @@ import { AuthService } from '../../../core/services/auth.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, RouterLink, RouterLinkActive]
+  imports: [CommonModule, RouterLink, RouterLinkActive, NgOptimizedImage]
 })
 export class HeaderComponent {
   authService = inject(AuthService);
   isMenuOpen = signal(false);
 
+  logoUrl = 'https://www.papihairdesign.sk/wp-content/uploads/2024/04/papihairdesign-logo.png';
+
   navLinks = [
-    { path: '/', label: 'Home' },
-    { path: '/virtual-try-on', label: 'Virtual Try-On' },
-    { path: '/shop', label: 'Shop' },
-    { path: '/profile', label: 'Profile' }
+    { path: '/', label: 'Domov' },
+    { path: '/blog', label: 'Blog' },
+    { path: '/pricing', label: 'Cenník' },
+    { path: '/rezervacia', label: 'Rezervácia' },
+    { path: '/about', label: 'O nás' },
+    { path: '/contact', label: 'Kontakt' }
   ];
 
   toggleMenu() {

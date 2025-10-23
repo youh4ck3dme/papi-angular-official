@@ -1,0 +1,17 @@
+<div class="flex flex-col md:flex-row gap-8">
+  <aside class="md:w-64 bg-black/30 p-6 rounded-lg">
+    <h2 class="text-xl font-bold text-gold mb-6">Admin Menu</h2>
+    <nav class="flex flex-col space-y-4">
+      @for(link of navLinks; track link.path) {
+        <a [routerLink]="link.path" routerLinkActive="bg-gold text-brand-dark" class="px-4 py-2 rounded-md hover:bg-gold/20 transition-colors">{{ link.label }}</a>
+      }
+    </nav>
+    <button (click)="logout()" class="w-full mt-8 text-left px-4 py-2 rounded-md text-gray-400 hover:bg-red-500/20 hover:text-red-400 transition-colors">
+      Odhlásiť sa
+    </button>
+  </aside>
+
+  <main class="flex-1 bg-black/30 p-6 rounded-lg">
+    <router-outlet></router-outlet>
+  </main>
+</div>
