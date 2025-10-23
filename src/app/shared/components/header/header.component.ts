@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy, signal, inject } from '@angular/cor
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { CartService } from '../../../core/services/cart.service';
 
 @Component({
   selector: 'app-header',
@@ -12,12 +13,14 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class HeaderComponent {
   authService = inject(AuthService);
+  cartService = inject(CartService);
   isMenuOpen = signal(false);
 
   logoUrl = 'https://services.bookio.com/image/e123babb-6e76-48d1-b1a1-93ba592c7125';
 
   navLinks = [
     { path: '/', label: 'Domov' },
+    { path: '/shop', label: 'Shop' },
     { path: '/blog', label: 'Blog' },
     { path: '/pricing', label: 'Cenník' },
     { path: '/rezervacia', label: 'Rezervácia' },

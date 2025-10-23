@@ -1,0 +1,17 @@
+@if(product(); as p) {
+  <div class="bg-black/30 rounded-lg shadow-lg overflow-hidden group flex flex-col h-full">
+    <div class="relative">
+      <img [ngSrc]="p.imageUrl" [alt]="p.name" width="400" height="400" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300">
+    </div>
+    <div class="p-6 flex flex-col flex-grow">
+      <h3 class="text-xl font-bold text-gold mb-2">{{ p.name }}</h3>
+      <p class="text-brand-light/80 mb-4 flex-grow">{{ p.description }}</p>
+      <div class="flex items-center justify-between mt-auto">
+        <p class="text-2xl font-light text-white">{{ p.price | currency:'EUR' }}</p>
+        <button (click)="onAddToCart()" class="bg-gold text-brand-dark font-bold py-2 px-4 rounded-full hover:bg-yellow-300 transition-transform transform hover:scale-105 duration-300">
+          Do košíka
+        </button>
+      </div>
+    </div>
+  </div>
+}

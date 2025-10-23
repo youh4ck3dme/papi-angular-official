@@ -9,6 +9,16 @@ export const APP_ROUTES: Routes = [
     loadComponent: () => import('./features/home/home.component').then(c => c.HomeComponent)
   },
   {
+    path: 'shop',
+    title: 'Shop',
+    loadComponent: () => import('./features/shop/shop.component').then(c => c.ShopComponent)
+  },
+  {
+    path: 'cart',
+    title: 'Nákupný košík',
+    loadComponent: () => import('./features/cart/cart.component').then(c => c.CartComponent)
+  },
+  {
     path: 'blog',
     title: 'Blog',
     loadComponent: () => import('./features/blog/blog-list.component').then(c => c.BlogListComponent)

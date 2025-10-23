@@ -10,11 +10,25 @@
         @for(link of navLinks; track link.path) {
           <a [routerLink]="link.path" routerLinkActive="text-gold border-b-2 border-gold" [routerLinkActiveOptions]="{exact: link.path === '/'}" class="text-brand-dark hover:text-gold transition-colors duration-300 pb-1">{{ link.label }}</a>
         }
-        <a routerLink="/login" routerLinkActive="text-gold" class="text-brand-dark hover:text-gold transition-colors duration-300">Prihlásenie</a>
+        <div class="flex items-center space-x-4 border-l border-gray-200 pl-6">
+          <a routerLink="/cart" class="relative text-brand-dark hover:text-gold transition-colors duration-300">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            @if(cartService.totalItems() > 0) {
+              <span class="absolute -top-2 -right-2 bg-gold text-brand-dark text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">{{ cartService.totalItems() }}</span>
+            }
+          </a>
+          <a routerLink="/login" routerLinkActive="text-gold" class="text-brand-dark hover:text-gold transition-colors duration-300">Prihlásenie</a>
+        </div>
       </div>
 
-      <!-- Mobile Menu Button -->
-      <div class="md:hidden">
+      <!-- Mobile Menu Controls -->
+      <div class="md:hidden flex items-center space-x-4">
+         <a routerLink="/cart" class="relative text-brand-dark hover:text-gold transition-colors duration-300">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            @if(cartService.totalItems() > 0) {
+              <span class="absolute -top-2 -right-2 bg-gold text-brand-dark text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">{{ cartService.totalItems() }}</span>
+            }
+          </a>
         <button (click)="toggleMenu()" class="text-brand-dark focus:outline-none" [attr.aria-expanded]="isMenuOpen()" aria-controls="mobile-menu">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
@@ -27,11 +41,13 @@
   <!-- Mobile Menu -->
   @if (isMenuOpen()) {
     <div id="mobile-menu" class="md:hidden absolute top-full left-0 w-full bg-white shadow-xl border-t border-gray-200">
-      <div class="flex flex-col items-center space-y-4 py-6">
-        @for(link of navLinks; track link.path) {
-          <a [routerLink]="link.path" routerLinkActive="text-gold" [routerLinkActiveOptions]="{exact: link.path === '/'}" (click)="closeMenu()" class="text-lg text-brand-dark hover:text-gold transition-colors duration-300">{{ link.label }}</a>
-        }
-        <a routerLink="/login" routerLinkActive="text-gold" (click)="closeMenu()" class="text-lg text-brand-dark hover:text-gold transition-colors duration-300">Prihlásenie</a>
+      <div class="flex flex-col items-center">
+        <div class="w-full">
+          @for(link of navLinks; track link.path) {
+            <a [routerLink]="link.path" routerLinkActive="text-gold bg-gray-100" [routerLinkActiveOptions]="{exact: link.path === '/'}" (click)="closeMenu()" class="block text-lg text-brand-dark hover:text-gold hover:bg-gray-50 transition-colors duration-300 py-3 text-center">{{ link.label }}</a>
+          }
+        </div>
+        <a routerLink="/login" routerLinkActive="text-gold" (click)="closeMenu()" class="text-lg text-brand-dark hover:text-gold transition-colors duration-300 border-t border-gray-200 w-full text-center py-4 mt-2">Prihlásenie</a>
       </div>
     </div>
   }

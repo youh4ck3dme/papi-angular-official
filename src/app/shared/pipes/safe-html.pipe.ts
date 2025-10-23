@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import * as DOMPurify from 'dompurify';
+import DOMPurify from 'dompurify';
 
 @Pipe({
   name: 'safeHtml',

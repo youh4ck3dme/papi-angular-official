@@ -1,0 +1,18 @@
+<div class="max-w-7xl mx-auto">
+  <div class="text-center mb-12">
+    <h1 class="text-4xl font-bold text-gold mb-2">Náš Shop</h1>
+    <p class="text-lg text-brand-light/80">Exkluzívna vlasová kozmetika a stylingové produkty.</p>
+  </div>
+
+  @if (isLoading()) {
+    <div class="text-center text-lg text-brand-light/80">
+      <p>Načítavam produkty...</p>
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      @for (product of products(); track product.id) {
+        <app-product-card [product]="product" (addToCart)="onAddToCart($event)"></app-product-card>
+      }
+    </div>
+  }
+</div>
