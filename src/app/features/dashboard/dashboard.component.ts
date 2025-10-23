@@ -13,7 +13,8 @@ import { Router } from '@angular/router';
 })
 export class DashboardComponent {
   authService = inject(AuthService);
-  router = inject(Router);
+  // Fix: Explicitly type the injected Router to resolve type inference issues.
+  router: Router = inject(Router);
 
   navLinks = [
     { path: '/dashboard/customers', label: 'Zákazníci' },

@@ -14,7 +14,8 @@ import { SafeHtmlPipe } from '../../shared/pipes/safe-html.pipe';
   imports: [CommonModule, RouterLink, SafeHtmlPipe]
 })
 export class BlogPostComponent {
-  private route = inject(ActivatedRoute);
+  // Fix: Explicitly type the injected ActivatedRoute to resolve type inference issues.
+  private route: ActivatedRoute = inject(ActivatedRoute);
   private blogService = inject(BlogService);
   private seoService = inject(SeoService);
 

@@ -8,10 +8,11 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class SeoService implements OnDestroy {
-  private titleService = inject(Title);
-  private metaService = inject(Meta);
-  private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
+  // Fix: Explicitly type injected services to resolve type inference issues.
+  private titleService: Title = inject(Title);
+  private metaService: Meta = inject(Meta);
+  private router: Router = inject(Router);
+  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 
   private destroy$ = new Subject<void>();
 
@@ -19,7 +20,7 @@ export class SeoService implements OnDestroy {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       map(() => {
-        let route = this.activatedRoute;
+        let route: ActivatedRoute = this.activatedRoute;
         while (route.firstChild) {
           route = route.firstChild;
         }

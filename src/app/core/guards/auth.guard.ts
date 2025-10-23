@@ -4,7 +4,8 @@ import { AuthService } from '../services/auth.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
-  const router = inject(Router);
+  // Fix: Explicitly type the injected Router to resolve type inference issues.
+  const router: Router = inject(Router);
 
   if (authService.isAuthenticated()) {
     return true;

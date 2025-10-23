@@ -20,6 +20,7 @@ export class FooterComponent {
   
   socialLinks = {
     instagram: 'https://www.instagram.com/papi_hair_design/',
-    facebook: 'https://www.facebook.com/papihairdesign/'
+    facebook: 'https://www.facebook.com/papihairdesign/',
+    tiktok: 'https://www.tiktok.com/discover/papi-haircut'
   };
 }

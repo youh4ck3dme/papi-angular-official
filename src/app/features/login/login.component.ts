@@ -14,7 +14,8 @@ import { NotificationService } from '../../core/services/notification.service';
 })
 export class LoginComponent {
   authService = inject(AuthService);
-  router = inject(Router);
+  // Fix: Explicitly type the injected Router to resolve type inference issues.
+  router: Router = inject(Router);
   notificationService = inject(NotificationService);
 
   password = signal('');
