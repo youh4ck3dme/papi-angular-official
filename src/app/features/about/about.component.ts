@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { SeoService } from '../../core/services/seo.service';
 
@@ -8,7 +8,7 @@ import { SeoService } from '../../core/services/seo.service';
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, RouterLink]
+  imports: [CommonModule, RouterLink, NgOptimizedImage]
 })
 export class AboutComponent {
   private seoService = inject(SeoService);
