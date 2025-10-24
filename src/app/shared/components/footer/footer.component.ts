@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { BusinessHoursService } from '../../../core/services/business-hours.service';
 
 @Component({
@@ -7,7 +8,7 @@ import { BusinessHoursService } from '../../../core/services/business-hours.serv
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule]
+  imports: [CommonModule, RouterLink]
 })
 export class FooterComponent {
   businessHoursService = inject(BusinessHoursService);
