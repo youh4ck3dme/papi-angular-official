@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SeoService } from '../../core/services/seo.service';
+import { SeoService } from '../../core/services';
 
 @Component({
   selector: 'app-contact',

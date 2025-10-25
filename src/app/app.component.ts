@@ -1,9 +1,7 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { HeaderComponent } from './shared/components/header/header.component';
-import { FooterComponent } from './shared/components/footer/footer.component';
-import { SeoService } from './core/services/seo.service';
-import { NotificationComponent } from './shared/components/notification/notification.component';
+import { HeaderComponent, FooterComponent, NotificationComponent } from './shared/components';
+import { SeoService } from './core/services';
 
 @Component({
   selector: 'app-root',

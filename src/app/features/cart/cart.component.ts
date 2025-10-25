@@ -1,8 +1,7 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { CartService } from '../../core/services/cart.service';
-import { NotificationService } from '../../core/services/notification.service';
+import { CartService, NotificationService } from '../../core/services';
 
 @Component({
   selector: 'app-cart',

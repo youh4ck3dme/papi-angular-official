@@ -1,0 +1,90 @@
+@if (currentUser(); as user) {
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12">
+      <img [ngSrc]="user.picture" [alt]="user.name" width="128" height="128" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-gold/50 shadow-lg">
+      <h1 class="text-4xl font-bold text-gold mb-2">Vitajte, {{ user.name }}</h1>
+      <p class="text-lg text-brand-light/80">{{ user.email }}</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Loyalty Points Card -->
+      <div class="bg-black/30 p-8 rounded-lg shadow-lg flex flex-col items-center justify-center text-center">
+        <h2 class="text-2xl font-bold text-gold mb-4">Vernostné Body</h2>
+        <p class="text-6xl font-extrabold text-white tracking-tighter">{{ user.loyaltyPoints }}</p>
+        <p class="text-brand-light/70 mt-2">Ďakujeme za Vašu vernosť!</p>
+      </div>
+
+      <!-- Notification Settings Card -->
+       <div class="bg-black/30 p-8 rounded-lg shadow-lg flex flex-col justify-center">
+        <h2 class="text-2xl font-bold text-gold mb-4">Nastavenie Notifikácií</h2>
+        <p class="text-brand-light/80 mb-6">Povoľte notifikácie, aby sme Vám mohli posielať pripomienky o Vašich nadchádzajúcich termínoch.</p>
+        @switch (pushService.permission()) {
+          @case ('granted') {
+            <div class="flex items-center gap-3 text-green-400">
+               <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+              <span>Notifikácie sú povolené.</span>
+            </div>
+          }
+          @case ('denied') {
+            <p class="text-red-400">Notifikácie sú zablokované v nastaveniach prehliadača.</p>
+          }
+          @case ('default') {
+            <button (click)="requestNotifications()" class="inline-flex items-center justify-center gap-2 bg-gold text-brand-dark font-bold py-3 px-6 rounded-full hover:bg-yellow-300 transition-transform transform hover:scale-105 duration-300 max-w-xs">
+              Povoliť Pripomienky
+            </button>
+          }
+        }
+      </div>
+
+      <!-- Privacy Settings Card -->
+      <div class="md:col-span-2 lg:col-span-1 bg-black/30 p-8 rounded-lg shadow-lg flex flex-col justify-center">
+        <h2 class="text-2xl font-bold text-gold mb-4">Centrum Súkromia</h2>
+        <p class="text-brand-light/80 mb-6">Spravujte svoje súhlasy a osobné údaje pre maximálnu kontrolu.</p>
+        <a routerLink="/privacy" class="inline-flex items-center justify-center gap-2 bg-white/10 text-white font-bold py-3 px-6 rounded-full hover:bg-white/20 transition-transform transform hover:scale-105 duration-300 w-full border border-gold/50">
+          Spravovať Súkromie
+        </a>
+      </div>
+    </div>
+
+    <!-- Appointment History -->
+    <div class="mt-12">
+      <h2 class="text-3xl font-bold text-gold mb-8 text-center">História Vašich Transformácií</h2>
+      
+      @if (appointments().length > 0) {
+        <div class="bg-black/30 rounded-lg shadow-lg overflow-hidden">
+          <ul class="divide-y divide-gray-700">
+            @for (appt of appointments(); track appt.id) {
+              <li class="p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                  <p class="text-xl font-semibold text-brand-light">{{ appt.serviceName }}</p>
+                  <p class="text-brand-light/70">u stylistu <span class="text-gold">{{ appt.stylistName }}</span></p>
+                </div>
+                <div class="text-left md:text-right">
+                  <p class="text-lg font-medium">{{ appt.startTime | date:'d. MMMM yyyy' }} o {{ appt.startTime | date:'HH:mm' }}</p>
+                  @if (appt.status === 'upcoming') {
+                     <span class="inline-block mt-1 text-xs font-bold bg-blue-500/30 text-blue-300 px-2 py-1 rounded-full">Nadchádzajúci</span>
+                  } @else if(appt.status === 'completed') {
+                     <span class="inline-block mt-1 text-xs font-bold bg-green-500/30 text-green-300 px-2 py-1 rounded-full">Absolvovaný</span>
+                  } @else {
+                      <span class="inline-block mt-1 text-xs font-bold bg-red-500/30 text-red-300 px-2 py-1 rounded-full">Zrušený</span>
+                  }
+                </div>
+              </li>
+            }
+          </ul>
+        </div>
+      } @else {
+        <div class="text-center bg-black/30 p-12 rounded-lg">
+            <p class="text-lg text-brand-light/70">Zatiaľ nemáte žiadne rezervácie.</p>
+            <a routerLink="/rezervacia" class="mt-6 inline-block bg-gold text-brand-dark font-bold py-3 px-8 rounded-full hover:bg-yellow-300 transition-transform transform hover:scale-105 duration-300">
+              Urobiť prvú rezerváciu
+            </a>
+        </div>
+      }
+    </div>
+  </div>
+} @else {
+    <div class="text-center text-lg text-brand-light/80">
+      <p>Načítavam profil...</p>
+    </div>
+}

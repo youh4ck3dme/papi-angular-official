@@ -2,7 +2,7 @@
   <nav class="container mx-auto px-6 py-4">
     <div class="flex items-center justify-between">
       <a routerLink="/" class="text-2xl font-bold text-gold tracking-wider flex items-center">
-        <img [ngSrc]="logoUrl" alt="PAPI Hair Design Logo" class="h-10 w-auto" width="160" height="40" priority>
+        <img [ngSrc]="logoUrl" alt="PAPI Hair Design Logo" class="h-10 w-auto" width="138" height="40" priority>
       </a>
       
       <!-- Desktop Menu -->
@@ -11,24 +11,43 @@
           <a [routerLink]="link.path" routerLinkActive="text-gold border-b-2 border-gold" [routerLinkActiveOptions]="{exact: link.path === '/'}" class="text-brand-dark hover:text-gold transition-colors duration-300 pb-1">{{ link.label }}</a>
         }
         <div class="flex items-center space-x-4 border-l border-gray-200 pl-6">
-          <a routerLink="/cart" class="relative text-brand-dark hover:text-gold transition-colors duration-300">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-            @if(cartService.totalItems() > 0) {
-              <span class="absolute -top-2 -right-2 bg-gold text-brand-dark text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">{{ cartService.totalItems() }}</span>
-            }
-          </a>
-          <a routerLink="/login" routerLinkActive="text-gold" class="text-brand-dark hover:text-gold transition-colors duration-300">Prihlásenie</a>
+          @if (userService.currentUser() || cartService.totalItems() > 0) {
+            <a routerLink="/cart" class="relative text-brand-dark hover:text-gold transition-colors duration-300">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+              @if(cartService.totalItems() > 0) {
+                <span class="absolute -top-2 -right-2 bg-gold text-brand-dark text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">{{ cartService.totalItems() }}</span>
+              }
+            </a>
+          }
+          @if(userService.currentUser(); as user) {
+            <div class="relative">
+              <button (click)="toggleProfileMenu()" class="flex items-center gap-2">
+                <img [ngSrc]="user.picture" alt="Profilový obrázok" width="32" height="32" class="w-8 h-8 rounded-full">
+              </button>
+              @if (isProfileMenuOpen()) {
+                <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
+                  <a routerLink="/profile" (click)="closeMenu()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Môj Profil</a>
+                  <a routerLink="/privacy" (click)="closeMenu()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Nastavenia Súkromia</a>
+                  <button (click)="logout()" class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Odhlásiť sa</button>
+                </div>
+              }
+            </div>
+          } @else {
+            <button (click)="login()" class="text-brand-dark hover:text-gold transition-colors duration-300">Prihlásiť sa</button>
+          }
         </div>
       </div>
 
       <!-- Mobile Menu Controls -->
       <div class="md:hidden flex items-center space-x-4">
+        @if (userService.currentUser() || cartService.totalItems() > 0) {
          <a routerLink="/cart" class="relative text-brand-dark hover:text-gold transition-colors duration-300">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
             @if(cartService.totalItems() > 0) {
               <span class="absolute -top-2 -right-2 bg-gold text-brand-dark text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">{{ cartService.totalItems() }}</span>
             }
           </a>
+        }
         <button (click)="toggleMenu()" class="text-brand-dark focus:outline-none" [attr.aria-expanded]="isMenuOpen()" aria-controls="mobile-menu">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
@@ -47,7 +66,13 @@
             <a [routerLink]="link.path" routerLinkActive="text-gold bg-gray-100" [routerLinkActiveOptions]="{exact: link.path === '/'}" (click)="closeMenu()" class="block text-lg text-brand-dark hover:text-gold hover:bg-gray-50 transition-colors duration-300 py-3 text-center">{{ link.label }}</a>
           }
         </div>
-        <a routerLink="/login" routerLinkActive="text-gold" (click)="closeMenu()" class="text-lg text-brand-dark hover:text-gold transition-colors duration-300 border-t border-gray-200 w-full text-center py-4 mt-2">Prihlásenie</a>
+        @if(userService.currentUser(); as user) {
+           <a routerLink="/profile" routerLinkActive="text-gold" (click)="closeMenu()" class="text-lg text-brand-dark hover:text-gold transition-colors duration-300 border-t border-gray-200 w-full text-center py-4 mt-2">Môj Profil</a>
+           <a routerLink="/privacy" routerLinkActive="text-gold" (click)="closeMenu()" class="text-lg text-brand-dark hover:text-gold transition-colors duration-300 border-t border-gray-200 w-full text-center py-4">Nastavenia Súkromia</a>
+           <button (click)="logout()" class="text-lg text-red-600 hover:text-red-800 transition-colors duration-300 w-full text-center py-4 border-t border-gray-200">Odhlásiť sa</button>
+        } @else {
+          <button (click)="login()" class="text-lg text-brand-dark hover:text-gold transition-colors duration-300 border-t border-gray-200 w-full text-center py-4 mt-2">Prihlásiť sa</button>
+        }
       </div>
     </div>
   }

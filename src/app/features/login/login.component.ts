@@ -1,9 +1,8 @@
 import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { AuthService } from '../../core/services/auth.service';
+import { AuthService, NotificationService } from '../../core/services';
 import { FormsModule } from '@angular/forms';
-import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-login',

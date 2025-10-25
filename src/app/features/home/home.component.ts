@@ -1,14 +1,15 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { SeoService } from '../../core/services/seo.service';
+import { SeoService } from '../../core/services';
+import { RevealOnScrollDirective } from '../../shared/directives';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, RouterLink]
+  imports: [CommonModule, RouterLink, NgOptimizedImage, RevealOnScrollDirective]
 })
 export class HomeComponent {
   private seoService = inject(SeoService);

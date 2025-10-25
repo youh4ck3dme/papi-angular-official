@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/guards/auth.guard';
+import { authGuard } from './core/guards';
+import { userGuard } from './core/guards/user.guard';
 
 export const APP_ROUTES: Routes = [
   {
@@ -7,6 +8,11 @@ export const APP_ROUTES: Routes = [
     pathMatch: 'full',
     title: 'Domov',
     loadComponent: () => import('./features/home/home.component').then(c => c.HomeComponent)
+  },
+  {
+    path: 'gallery', // New route for the gallery
+    title: 'Portfolio',
+    loadComponent: () => import('./shared/components/gallery/gallery.component').then(c => c.GalleryComponent)
   },
   {
     path: 'shop',
@@ -48,8 +54,26 @@ export const APP_ROUTES: Routes = [
     loadComponent: () => import('./features/contact/contact.component').then(c => c.ContactComponent)
   },
   {
-    path: 'login',
-    title: 'Prihlásenie',
+    path: 'virtual-try-on',
+    title: 'Virtuálne Vyskúšanie',
+    loadComponent: () => import('./features/virtual-try-on/vto.component').then(c => c.VtoComponent),
+     canActivate: [userGuard],
+  },
+  {
+    path: 'profile',
+    title: 'Môj Profil',
+    loadComponent: () => import('./features/profile/profile.component').then(c => c.ProfileComponent),
+    canActivate: [userGuard],
+  },
+  {
+    path: 'privacy',
+    title: 'Nastavenia Súkromia',
+    loadComponent: () => import('./features/privacy/privacy.component').then(c => c.PrivacyComponent),
+    canActivate: [userGuard],
+  },
+  {
+    path: 'admin-login', // Renamed for clarity
+    title: 'Admin Prihlásenie',
     loadComponent: () => import('./features/login/login.component').then(c => c.LoginComponent)
   },
   {

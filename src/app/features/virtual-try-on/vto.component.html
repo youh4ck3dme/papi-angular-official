@@ -1,0 +1,114 @@
+<div class="max-w-7xl mx-auto">
+  <div class="text-center mb-12">
+    <h1 class="text-4xl font-bold text-gold mb-2">Virtuálne Vyskúšanie Účesu</h1>
+    <p class="text-lg text-brand-light/80">Nahrajte svoju fotku alebo použite kameru a nechajte si poradiť od našej AI stylistky.</p>
+  </div>
+
+  @if (!userService.currentUser()) {
+    <div class="text-center bg-black/30 p-12 rounded-lg shadow-lg">
+      <h2 class="text-2xl font-semibold mb-4">Prihláste sa pre pokračovanie</h2>
+      <p class="text-brand-light/70 mb-8">Táto funkcia je dostupná pre prihlásených používateľov.</p>
+      <button (click)="userService.signInWithGoogle()" class="inline-flex items-center gap-3 bg-white text-gray-800 font-semibold py-3 px-6 rounded-full hover:bg-gray-200 transition-transform transform hover:scale-105 duration-300">
+        Prihlásiť sa cez Google
+      </button>
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      
+      <!-- Image/Camera View -->
+      <div class="bg-black/30 p-4 rounded-lg shadow-lg flex items-center justify-center aspect-video relative overflow-hidden">
+        @switch (state()) {
+          @case ('initial') {
+            <div class="text-center text-brand-light/60">
+              <svg class="mx-auto h-24 w-24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+              <p class="mt-4">Použite kameru alebo nahrajte fotku</p>
+            </div>
+          }
+          @case ('camera') {
+            <video #videoElement autoplay playsinline class="w-full h-full object-cover rounded-md"></video>
+            <canvas #canvasElement class="hidden"></canvas>
+          }
+          @case ('preview') {
+            @if(capturedImage(); as img) {
+              <img [ngSrc]="img" alt="Captured preview" width="1280" height="720" class="w-full h-full object-contain rounded-md">
+            }
+          }
+          @case ('loading') {
+             @if(capturedImage(); as img) {
+              <img [ngSrc]="img" alt="Captured preview" width="1280" height="720" class="w-full h-full object-contain rounded-md blur-sm opacity-50">
+              <div class="absolute inset-0 flex flex-col items-center justify-center bg-black/50">
+                  <p class="text-2xl font-semibold animate-pulse">AI premýšľa...</p>
+                  <p class="text-brand-light/70 mt-2">Generujem pre Vás unikátny návrh.</p>
+              </div>
+            }
+          }
+           @case ('result') {
+             @if(capturedImage(); as img) {
+              <img [ngSrc]="img" alt="Captured preview" width="1280" height="720" class="w-full h-full object-contain rounded-md">
+            }
+          }
+        }
+      </div>
+
+      <!-- Controls and Result -->
+      <div class="bg-black/30 p-6 rounded-lg shadow-lg flex flex-col justify-between">
+        @if (state() !== 'result') {
+          <div>
+            <h3 class="text-2xl font-semibold text-gold mb-4">Ovládací panel</h3>
+            @if (state() === 'initial' || state() === 'preview') {
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                <button (click)="startCamera()" class="w-full flex items-center justify-center gap-2 bg-blue-600/80 text-white font-semibold py-3 px-4 rounded-md hover:bg-blue-500 transition-colors">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                  Použiť Kameru
+                </button>
+                 <label class="w-full flex items-center justify-center gap-2 bg-green-600/80 text-white font-semibold py-3 px-4 rounded-md hover:bg-green-500 transition-colors cursor-pointer">
+                   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                  Nahrať Fotku
+                  <input type="file" class="hidden" (change)="onFileSelected($event)" accept="image/*">
+                </label>
+              </div>
+            }
+            @if (state() === 'camera') {
+               <button (click)="captureImage()" class="w-full bg-gold text-brand-dark font-bold py-3 px-4 rounded-md hover:bg-yellow-300 transition-colors mb-4">Zosnímať fotku</button>
+               <button (click)="resetToInitial()" class="w-full bg-gray-600 text-white font-semibold py-3 px-4 rounded-md hover:bg-gray-500 transition-colors">Zrušiť</button>
+            }
+            @if (state() === 'preview') {
+              <div>
+                <label for="prompt" class="block font-medium text-brand-light/80 mb-2">Popíšte Váš vysnívaný účes (alebo si vyberte inšpiráciu):</label>
+                <div class="flex flex-wrap gap-2 mb-3">
+                  @for(p of inspirationPrompts(); track p) {
+                    <button (click)="setPrompt(p)" type="button" class="px-3 py-1 text-sm border border-gray-600 rounded-full hover:bg-gold/20 hover:border-gold transition-colors">
+                      {{ p }}
+                    </button>
+                  }
+                </div>
+                <textarea id="prompt" [(ngModel)]="prompt" rows="3" class="w-full bg-brand-dark/50 border border-gray-600 rounded-md p-3 text-white focus:ring-gold focus:border-gold" placeholder="napr. krátky blond pixie strih"></textarea>
+              </div>
+            }
+          </div>
+          <div class="mt-auto pt-6">
+            <button (click)="generateSuggestion()" [disabled]="isGenerateDisabled()" class="w-full bg-gold text-brand-dark font-bold py-4 px-4 rounded-md hover:bg-yellow-300 transition-all duration-300 disabled:bg-gray-500 disabled:cursor-not-allowed">
+              @if (state() === 'loading') {
+                <span class="animate-pulse">Generujem...</span>
+              } @else {
+                <span>Vygenerovať Návrh</span>
+              }
+            </button>
+            @if (state() === 'preview') {
+              <button (click)="resetToInitial()" class="w-full text-center mt-3 text-sm text-gray-400 hover:text-white">Začať odznova</button>
+            }
+          </div>
+        } @else {
+          <!-- Result View -->
+          <div>
+            <h3 class="text-2xl font-semibold text-gold mb-4">Návrh od AI Stylistky</h3>
+            <div class="prose prose-invert prose-lg max-w-none text-brand-light/90" [innerHTML]="generatedSuggestion() | safeHtml"></div>
+          </div>
+           <div class="mt-auto pt-6">
+             <button (click)="resetToInitial()" class="w-full bg-gold text-brand-dark font-bold py-4 px-4 rounded-md hover:bg-yellow-300 transition-colors">Vyskúšať iný štýl</button>
+           </div>
+        }
+      </div>
+    </div>
+  }
+</div>

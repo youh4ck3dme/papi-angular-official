@@ -1,0 +1,104 @@
+<div class="max-w-4xl mx-auto">
+  <div class="text-center mb-12">
+    <h1 class="text-4xl font-bold text-gold mb-2">Centrum Súkromia</h1>
+    <p class="text-lg text-brand-light/80">Spravujte svoje súhlasy a osobné údaje.</p>
+  </div>
+
+  @if (currentUser(); as user) {
+    <form [formGroup]="privacyForm" (ngSubmit)="savePreferences()" class="bg-black/30 p-8 rounded-lg shadow-lg space-y-8">
+      
+      <!-- Personal Data Consent -->
+      <div class="flex items-start gap-4 p-4 rounded-md border border-gray-700 bg-brand-dark/30">
+        <div class="flex-shrink-0">
+          <label for="personalData" class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="personalData" formControlName="personalData" class="sr-only peer" disabled>
+            <div class="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gold/50 cursor-not-allowed"></div>
+          </label>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-brand-light">Ukladanie osobných údajov</h3>
+          <p class="text-sm text-brand-light/70 mt-1">
+            Súhlasíte s ukladaním základných osobných údajov (meno, email, história rezervácií) potrebných pre fungovanie Vášho profilu a rezervačného systému. Tento súhlas je <span class="font-bold">povinný</span> pre používanie našich služieb a nie je možné ho odvolať bez zrušenia účtu.
+          </p>
+        </div>
+      </div>
+      
+      <!-- Analytics Consent -->
+      <div class="flex items-start gap-4">
+        <div class="flex-shrink-0">
+          <label for="analytics" class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="analytics" formControlName="analytics" class="sr-only peer">
+            <div class="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gold"></div>
+          </label>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-brand-light">Analytické súbory cookie</h3>
+          <p class="text-sm text-brand-light/70 mt-1">
+            Pomáhajú nám pochopiť, ako používate našu aplikáciu, aby sme mohli vylepšovať jej funkčnosť a Váš zážitok. Všetky dáta sú anonymizované.
+          </p>
+        </div>
+      </div>
+      
+      <!-- Marketing Consent -->
+      <div class="flex items-start gap-4">
+        <div class="flex-shrink-0">
+          <label for="marketing" class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="marketing" formControlName="marketing" class="sr-only peer">
+            <div class="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gold"></div>
+          </label>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-brand-light">Marketingové súbory cookie</h3>
+          <p class="text-sm text-brand-light/70 mt-1">
+            Umožňujú nám zobrazovať Vám relevantnejšie ponuky a novinky týkajúce sa našich služieb a produktov, a to aj na iných platformách.
+          </p>
+        </div>
+      </div>
+      
+       <!-- Camera Consent -->
+      <div class="flex items-start gap-4">
+        <div class="flex-shrink-0">
+          <label for="camera" class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="camera" formControlName="camera" class="sr-only peer">
+            <div class="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gold"></div>
+          </label>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-brand-light">Povolenie prístupu ku kamere</h3>
+          <p class="text-sm text-brand-light/70 mt-1">
+            Povoľte prístup k Vašej kamere pre funkciu "Virtuálne vyskúšanie účesu". Vaše obrázky sú spracované priamo vo Vašom zariadení a <span class="font-bold">nie sú nikdy ukladané na naše servery</span>.
+          </p>
+        </div>
+      </div>
+
+      <!-- Image Handling Policy -->
+      <div class="pt-6 border-t border-gray-700">
+         <h3 class="text-xl font-bold text-gold mb-4">Zásady spracovania obrázkov</h3>
+         <p class="text-brand-light/80">
+           Pre funkciu "Virtuálne vyskúšanie účesu" používame kameru Vášho zariadenia na zachytenie Vášho obrazu v reálnom čase. Celý proces prebieha lokálne vo Vašom prehliadači.
+           <br><br>
+           <strong class="text-gold">Zaväzujeme sa, že žiadne obrázky ani videá z Vášho zariadenia nie sú odosielané, spracovávané ani ukladané na našich serveroch alebo serveroch tretích strán.</strong> Sú použité výhradne pre okamžité zobrazenie virtuálneho účesu a po zatvorení stránky sú okamžite zahodené.
+         </p>
+      </div>
+      
+      <!-- Form Actions -->
+      <div class="flex justify-end items-center gap-4 pt-6 border-t border-gray-700">
+         @if (user.privacyConsent.lastUpdated) {
+            <p class="text-sm text-brand-light/60 mr-auto">Posledná aktualizácia: {{ user.privacyConsent.lastUpdated | date:'d. MMMM yyyy, HH:mm' }}</p>
+         }
+        <button type="submit" [disabled]="isSaving() || privacyForm.pristine" class="bg-gold text-brand-dark font-bold py-3 px-8 rounded-full hover:bg-yellow-300 transition-all duration-300 disabled:bg-gray-500 disabled:cursor-not-allowed">
+          @if(isSaving()) {
+            <span>Ukladám...</span>
+          } @else {
+            <span>Uložiť zmeny</span>
+          }
+        </button>
+      </div>
+
+    </form>
+  } @else {
+    <div class="text-center text-lg text-brand-light/80">
+      <p>Načítavam nastavenia...</p>
+    </div>
+  }
+</div>

@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { BlogService, BlogPost } from '../../core/services/blog.service';
+import { BlogService, BlogPost } from '../../core/services';
 import { finalize } from 'rxjs';
 
 @Component({

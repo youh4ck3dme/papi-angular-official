@@ -1,5 +1,7 @@
 {
   "name": "PAPI Hair Design",
   "description": "Oficiálna PWA aplikácia pre kadernícky salón PAPI Hair Design. Objavte naše služby, prečítajte si náš príbeh a zarezervujte si termín.",
-  "requestFramePermissions": []
+  "requestFramePermissions": [
+    "camera"
+  ]
 }

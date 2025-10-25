@@ -1,7 +1,144 @@
-<div class="text-center max-w-4xl mx-auto">
-  <h1 class="text-4xl font-bold text-gold mb-2">Online Rezervácia</h1>
-  <p class="text-lg text-brand-light/80 mb-8">Zarezervujte si svoj termín pohodlne online cez náš rezervačný systém Bookio.</p>
-  <a href="https://services.bookio.com/papi-hair-design/widget?lang=sk" target="_blank" rel="noopener noreferrer" class="inline-block bg-gold text-brand-dark font-bold py-3 px-8 rounded-full hover:bg-yellow-300 transition-transform transform hover:scale-105 duration-300">
-    Prejsť na Rezervačný Systém
-  </a>
+<div class="max-w-4xl mx-auto">
+  <div class="text-center mb-12">
+    <h1 class="text-4xl font-bold text-gold mb-2">Online Rezervácia</h1>
+    <p class="text-lg text-brand-light/80">Zarezervujte si svoj termín v troch jednoduchých krokoch.</p>
+  </div>
+
+  @if (!userService.currentUser()) {
+    <div class="text-center bg-black/30 p-12 rounded-lg shadow-lg">
+      <h2 class="text-2xl font-semibold mb-4">Prihláste sa pre pokračovanie</h2>
+      <p class="text-brand-light/70 mb-8">Pre vytvorenie rezervácie je potrebné prihlásenie cez Váš Google účet.</p>
+      <button (click)="userService.signInWithGoogle()" class="inline-flex items-center gap-3 bg-white text-gray-800 font-semibold py-3 px-6 rounded-full hover:bg-gray-200 transition-transform transform hover:scale-105 duration-300">
+        <svg class="w-6 h-6" viewBox="0 0 48 48"><path fill="#4285F4" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"></path><path fill="#34A853" d="m43.611 20.083l-19.611-16.083v32.166l19.611-16.083z"></path><path fill="#FBBC05" d="M43.611 20.083L24 20l-4.243 14.917L43.611 20.083z"></path><path fill="#EA4335" d="M43.611 20.083L24 20l19.611-16.083L43.611 20.083z"></path></svg>
+        Prihlásiť sa cez Google
+      </button>
+    </div>
+  } @else {
+    <div class="bg-black/30 p-4 sm:p-8 rounded-lg shadow-lg">
+      
+      <!-- Wizard Steps -->
+      @if (step() !== 'SUCCESS') {
+        <div class="mb-8">
+          <ol class="flex items-center w-full">
+            @for (s of steps; track s.key; let i = $index) {
+              <li class="flex w-full items-center" [class.after:content-['']]="i < steps.length - 1" [class.after:w-full]="i < steps.length - 1" [class.after:h-1]="i < steps.length - 1" [class.after:border-b]="i < steps.length - 1" [class.after:border-4]="i < steps.length - 1" [class.after:inline-block]="i < steps.length - 1" [class.after:border-gray-700]="step() !== s.key && (step() === 'SERVICE' || (step() === 'STYLIST' && i > 0))" [class.after:border-gold]="step() === s.key || (step() === 'STYLIST' && i === 0) || step() === 'TIME' || step() === 'CONFIRM'">
+                <div class="flex items-center justify-center w-10 h-10 rounded-full shrink-0" [class.bg-gold]="step() === s.key || (step() === 'STYLIST' && i === 0) || step() === 'TIME' || step() === 'CONFIRM'" [class.text-brand-dark]="step() === s.key || (step() === 'STYLIST' && i === 0) || step() === 'TIME' || step() === 'CONFIRM'" [class.bg-gray-700]="step() !== s.key && (step() === 'SERVICE' || (step() === 'STYLIST' && i > 0))" [class.text-brand-light]="step() !== s.key && (step() === 'SERVICE' || (step() === 'STYLIST' && i > 0))">
+                  @if((step() === 'STYLIST' && i === 0) || step() === 'TIME' || step() === 'CONFIRM') {
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.052-.143z"></path></svg>
+                  } @else {
+                    <span>{{ i + 1 }}</span>
+                  }
+                </div>
+              </li>
+            }
+          </ol>
+        </div>
+      }
+
+      <!-- Wizard Content -->
+      @switch (step()) {
+        @case ('SERVICE') {
+          <div>
+            <h3 class="text-2xl font-semibold text-gold mb-6 text-center">Krok 1: Vyberte si službu</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              @for(service of services(); track service.id) {
+                <button (click)="selectService(service)" class="p-4 text-left bg-brand-dark/50 rounded-lg border border-gray-700 hover:border-gold transition-colors duration-200">
+                  <h4 class="font-bold text-lg text-brand-light">{{ service.name }}</h4>
+                  <p class="text-sm text-brand-light/70">{{ service.duration }} minút • {{ service.price.toFixed(2) }} €</p>
+                </button>
+              }
+            </div>
+          </div>
+        }
+
+        @case ('STYLIST') {
+          <div>
+            <button (click)="changeStep('SERVICE')" class="text-sm text-gold hover:underline mb-4">&larr; Späť na výber služby</button>
+            <h3 class="text-2xl font-semibold text-gold mb-6 text-center">Krok 2: Vyberte si stylistu</h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+              @for(stylist of availableStylists(); track stylist.id) {
+                <button (click)="selectStylist(stylist)" class="p-4 text-center bg-brand-dark/50 rounded-lg border border-gray-700 hover:border-gold transition-colors duration-200">
+                  <img [src]="stylist.imageUrl" [alt]="stylist.name" class="w-24 h-24 rounded-full mx-auto mb-2 object-cover">
+                  <h4 class="font-bold text-lg text-brand-light">{{ stylist.name }}</h4>
+                  <p class="text-sm text-brand-light/70">{{ stylist.title }}</p>
+                </button>
+              }
+            </div>
+          </div>
+        }
+
+        @case ('TIME') {
+          <div>
+            <button (click)="changeStep('STYLIST')" class="text-sm text-gold hover:underline mb-4">&larr; Späť na výber stylistu</button>
+            <h3 class="text-2xl font-semibold text-gold mb-6 text-center">Krok 3: Vyberte si termín</h3>
+            <div class="mb-6">
+              <label for="date" class="block text-sm font-medium text-brand-light/80 mb-2">Dátum:</label>
+              <input type="date" id="date" name="date" [(ngModel)]="selectedDate" (ngModelChange)="onDateChange()" [min]="minDate()" class="w-full bg-brand-dark/50 border border-gray-600 rounded-md p-3 text-white focus:ring-gold focus:border-gold">
+            </div>
+            
+            @if(isLoading()) {
+                <div class="text-center py-8"><p class="animate-pulse">Vyhľadávam voľné termíny...</p></div>
+            } @else {
+                @if(availableSlots().length > 0) {
+                  <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
+                    @for (slot of availableSlots(); track slot.start) {
+                      <button 
+                        (click)="selectSlot(slot)"
+                        class="border border-gray-600 text-center rounded-md py-2 px-3 hover:border-gold transition-colors duration-200">
+                        {{ slot.start }}
+                      </button>
+                    }
+                  </div>
+                } @else {
+                  <p class="text-center text-brand-light/70 py-8">Pre tento deň neboli nájdené žiadne voľné termíny. Skúste prosím iný dátum.</p>
+                }
+            }
+          </div>
+        }
+
+        @case ('CONFIRM') {
+          <div class="text-center">
+            <h3 class="text-2xl font-bold text-gold">Potvrdenie rezervácie</h3>
+            <div class="bg-brand-dark/50 border border-gold/20 rounded-lg p-6 my-6 text-left space-y-3">
+                <p><strong>Služba:</strong> <span class="text-brand-light/80">{{ selectedService()?.name }}</span></p>
+                <p><strong>Stylista:</strong> <span class="text-brand-light/80">{{ selectedStylist()?.name }}</span></p>
+                <p><strong>Dátum:</strong> <span class="text-brand-light/80">{{ selectedDate() }}</span></p>
+                <p><strong>Čas:</strong> <span class="text-brand-light/80">{{ selectedSlot()?.start }}</span></p>
+                <p><strong>Cena:</strong> <span class="text-brand-light/80">{{ selectedService()?.price.toFixed(2) }} €</span></p>
+            </div>
+            <div class="flex justify-center gap-4">
+               <button (click)="changeStep('TIME')" class="bg-gray-600 text-white font-bold py-3 px-8 rounded-full hover:bg-gray-500 transition-colors duration-300">Späť</button>
+               <button 
+                  (click)="confirmBooking()" 
+                  [disabled]="isLoading()"
+                  class="bg-gold text-brand-dark font-bold py-3 px-8 rounded-full hover:bg-yellow-300 transition-all duration-300 disabled:bg-gray-500 disabled:cursor-not-allowed">
+                  @if(isLoading()) {
+                    <span>Rezervujem...</span>
+                  } @else {
+                    <span>Potvrdiť a Zarezervovať</span>
+                  }
+               </button>
+            </div>
+          </div>
+        }
+        
+        @case ('SUCCESS') {
+           <div class="text-center py-12">
+              <div class="w-16 h-16 bg-green-500/30 text-green-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20"><path d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.052-.143z"></path></svg>
+              </div>
+              <h3 class="text-3xl font-bold text-gold">Ďakujeme!</h3>
+              <p class="text-lg text-brand-light/80 my-4">Váš termín bol úspešne zarezervovaný.</p>
+              <button (click)="startNewBooking()" class="mt-4 bg-gold text-brand-dark font-bold py-3 px-8 rounded-full hover:bg-yellow-300 transition-transform transform hover:scale-105 duration-300">
+                Vytvoriť ďalšiu rezerváciu
+              </button>
+           </div>
+        }
+
+        @case ('ERROR') {
+            <p>Error State</p>
+        }
+      }
+    </div>
+  }
 </div>

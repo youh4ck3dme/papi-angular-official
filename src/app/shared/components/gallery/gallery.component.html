@@ -1,0 +1,36 @@
+<div class="max-w-7xl mx-auto">
+  <div class="text-center mb-12">
+    <h1 class="text-4xl font-bold text-gold mb-2">Naše Portfolio</h1>
+    <p class="text-lg text-brand-light/80">Prehliadnite si naše výnimočné kreácie a objavte umenie, ktoré vkladáme do každého strihu, farby a stylingu. Inšpirujte sa majstrovskými premenami a nájdite svoj dokonalý vzhľad v PAPI Hair Design.</p>
+  </div>
+
+  <!-- Filter Buttons -->
+  <div class="flex flex-wrap justify-center gap-3 mb-12" role="group" aria-label="Filter gallery items by category">
+    @for (category of uniqueCategories(); track category) {
+      <button
+        type="button"
+        (click)="setFilter(category)"
+        [class.bg-gold]="selectedCategory() === category"
+        [class.text-brand-dark]="selectedCategory() === category"
+        [class.border-gold]="selectedCategory() === category"
+        class="px-5 py-2 rounded-full border border-gray-600 text-brand-light hover:bg-gold hover:text-brand-dark transition-colors duration-300 ease-in-out focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gold focus-visible:outline-none"
+        [attr.aria-pressed]="selectedCategory() === category"
+      >
+        {{ category }}
+      </button>
+    }
+  </div>
+
+  <!-- Gallery Grid -->
+  @if (filteredItems().length > 0) {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      @for (item of filteredItems(); track item.id; let i = $index) {
+        <app-gallery-card [item]="item" [index]="i"></app-gallery-card>
+      }
+    </div>
+  } @else {
+    <div class="text-center text-lg text-brand-light/80 py-16">
+      <p>Pre túto kategóriu neboli nájdené žiadne položky.</p>
+    </div>
+  }
+</div>

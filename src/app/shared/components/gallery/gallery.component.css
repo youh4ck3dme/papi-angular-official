@@ -1,0 +1,10 @@
+/* Custom text gradient for 'metal-gold' effect */
+/* This is an example, typically you'd define this in your global CSS or Tailwind config */
+.text-metal-gold {
+  background-image: linear-gradient(to right, #D4AF37, #FFD700, #D4AF37);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent; /* Fallback for browsers not supporting -webkit-text-fill-color */
+  /* This ensures the text is transparent and the background gradient shows through */
+}

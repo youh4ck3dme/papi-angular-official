@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { BusinessHoursService } from '../../../core/services/business-hours.service';
+import { BusinessHoursService } from '../../../core/services';
 
 @Component({
   selector: 'app-footer',

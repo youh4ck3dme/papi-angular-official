@@ -1,10 +1,9 @@
 import { Component, ChangeDetectionStrategy, inject, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { BlogService, BlogPost } from '../../core/services/blog.service';
+import { BlogService, BlogPost, SeoService } from '../../core/services';
 import { switchMap, finalize, filter, tap } from 'rxjs';
-import { SeoService } from '../../core/services/seo.service';
-import { SafeHtmlPipe } from '../../shared/pipes/safe-html.pipe';
+import { SafeHtmlPipe } from '../../shared/pipes';
 
 @Component({
   selector: 'app-blog-post',

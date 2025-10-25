@@ -1,0 +1,10 @@
+/* Custom styles for date picker calendar icon */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1) grayscale(1) brightness(0.7);
+    cursor: pointer;
+    transition: filter 0.2s ease;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    filter: invert(1) grayscale(0) brightness(1);
+}

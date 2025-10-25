@@ -1,5 +1,7 @@
 @if(product(); as p) {
-  <div class="bg-black/30 rounded-lg shadow-lg overflow-hidden group flex flex-col h-full">
+  <div class="bg-black/30 rounded-lg shadow-lg overflow-hidden group flex flex-col h-full"
+       appRevealOnScroll
+       [appRevealOnScrollDelay]="index() * 100">
     <div class="relative">
       <img [ngSrc]="p.imageUrl" [alt]="p.name" width="400" height="400" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300">
     </div>

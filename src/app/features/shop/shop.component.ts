@@ -1,10 +1,8 @@
 import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProductService, Product } from '../../core/services/product.service';
-import { CartService } from '../../core/services/cart.service';
-import { NotificationService } from '../../core/services/notification.service';
+import { ProductService, Product, CartService, NotificationService } from '../../core/services';
 import { finalize } from 'rxjs';
-import { ProductCardComponent } from '../../shared/components/product-card/product-card.component';
+import { ProductCardComponent } from '../../shared/components';
 
 @Component({
   selector: 'app-shop',
