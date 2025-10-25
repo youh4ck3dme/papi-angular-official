@@ -7,14 +7,16 @@ import { NotificationService } from './notification.service';
 export class PushNotificationService {
   private notificationService = inject(NotificationService);
   
-  permission = signal<PermissionState>('default');
+  // Fix: The signal type is changed to NotificationPermission to correctly handle 'default' state.
+  permission = signal<NotificationPermission>('default');
 
   constructor() {
     if ('permissions' in navigator) {
       navigator.permissions.query({ name: 'notifications' }).then(status => {
-        this.permission.set(status.state);
+        // Fix: Map 'prompt' from Permissions API to 'default' for consistency with Notification API.
+        this.permission.set(status.state === 'prompt' ? 'default' : status.state);
         status.onchange = () => {
-          this.permission.set(status.state);
+          this.permission.set(status.state === 'prompt' ? 'default' : status.state);
         };
       });
     }
@@ -27,6 +29,7 @@ export class PushNotificationService {
     }
 
     const permissionResult = await Notification.requestPermission();
+    // Fix: The result is directly assignable now.
     this.permission.set(permissionResult);
 
     if (permissionResult === 'granted') {

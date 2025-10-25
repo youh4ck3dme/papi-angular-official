@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject, signal, OnInit, effect } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { UserService, FirebaseService, NotificationService } from '../../core/services';
@@ -14,7 +14,8 @@ import { finalize } from 'rxjs';
   imports: [CommonModule, ReactiveFormsModule, RouterLink]
 })
 export class PrivacyComponent implements OnInit {
-  private fb = inject(FormBuilder);
+  // Fix: Explicitly typing the injected FormBuilder to resolve type inference issues.
+  private fb: FormBuilder = inject(FormBuilder);
   userService = inject(UserService);
   private firebaseService = inject(FirebaseService);
   private notificationService = inject(NotificationService);

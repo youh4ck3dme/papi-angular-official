@@ -1,8 +1,8 @@
 import { Component, ChangeDetectionStrategy, inject, signal, effect } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { BlogService, BlogPost, SeoService } from '../../core/services';
-import { switchMap, finalize, filter, tap } from 'rxjs';
+import { BlogService, BlogPostWithAuthor, SeoService } from '../../core/services';
+import { switchMap, finalize, tap } from 'rxjs';
 import { SafeHtmlPipe } from '../../shared/pipes';
 
 @Component({
@@ -10,24 +10,26 @@ import { SafeHtmlPipe } from '../../shared/pipes';
   templateUrl: './blog-post.component.html',
   styleUrls: ['./blog-post.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, RouterLink, SafeHtmlPipe]
+  imports: [CommonModule, RouterLink, SafeHtmlPipe, NgOptimizedImage]
 })
 export class BlogPostComponent {
-  // Fix: Explicitly type the injected ActivatedRoute to resolve type inference issues.
   private route: ActivatedRoute = inject(ActivatedRoute);
   private blogService = inject(BlogService);
   private seoService = inject(SeoService);
 
-  post = signal<BlogPost | null | undefined>(null); // undefined for 'not found' state
+  post = signal<BlogPostWithAuthor | undefined>(undefined);
   isLoading = signal(true);
 
   constructor() {
     this.route.paramMap.pipe(
-      tap(() => this.isLoading.set(true)),
+      tap(() => {
+        this.post.set(undefined);
+        this.isLoading.set(true);
+      }),
       switchMap(params => {
         const slug = params.get('slug');
         if (!slug) {
-          return [null]; // Should not happen with correct routing
+          return [undefined];
         }
         return this.blogService.getPostBySlug(slug);
       }),
@@ -40,7 +42,10 @@ export class BlogPostComponent {
       const post = this.post();
       if (post) {
         this.seoService.updateTitle(`Blog | ${post.title}`);
-        this.seoService.updateMetaTags({ description: post.perex });
+        this.seoService.updateMetaTags({ description: post.perex, image: post.imageUrl });
+      } else if (!this.isLoading()) {
+        this.seoService.updateTitle('Blog | Príspevok nenájdený');
+        this.seoService.updateMetaTags({ description: 'Tento blogový príspevok nebol nájdený.' });
       }
     });
   }

@@ -5,34 +5,56 @@
       <div class="h-4 bg-gray-700 rounded w-1/4 mb-8"></div>
       <div class="h-10 bg-gray-700 rounded w-3/4 mb-4"></div>
       <div class="h-4 bg-gray-700 rounded w-1/2 mb-12"></div>
+      <div class="aspect-video bg-gray-700 rounded-lg mb-8"></div>
       <div class="space-y-4">
         <div class="h-4 bg-gray-700 rounded"></div>
         <div class="h-4 bg-gray-700 rounded w-5/6"></div>
         <div class="h-4 bg-gray-700 rounded"></div>
         <div class="h-4 bg-gray-700 rounded w-3/4"></div>
-        <div class="h-4 bg-gray-700 rounded w-1/2"></div>
-         <div class="h-4 bg-gray-700 rounded mt-8"></div>
-        <div class="h-4 bg-gray-700 rounded w-5/6"></div>
       </div>
     </div>
-  } @else if (post()) {
+  } @else if (post(); as p) {
     <article>
-      <div class="mb-8">
-        <nav class="text-sm text-brand-light/60">
+      <header class="mb-8">
+        <nav class="text-sm text-brand-light/60 mb-4">
           <a routerLink="/" class="hover:text-gold">Domov</a> &gt;
           <a routerLink="/blog" class="hover:text-gold">Blog</a>
         </nav>
-        <h1 class="text-4xl font-extrabold text-gold mt-2 mb-4">{{ post()?.title }}</h1>
-        <div class="text-sm text-brand-light/60">
-          <span>Publikované: {{ post()?.publishDate }}</span> | <span>Autor: {{ post()?.author }}</span>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-gold leading-tight mb-4">{{ p.title }}</h1>
+        <div class="flex items-center gap-4 text-brand-light/70">
+          <div class="flex items-center gap-2">
+            <img [ngSrc]="p.author.imageUrl" [alt]="p.author.name" width="32" height="32" class="w-8 h-8 rounded-full object-cover">
+            <div>
+              <p class="font-semibold text-brand-light">{{ p.author.name }}</p>
+              <p class="text-xs">{{ p.author.title }}</p>
+            </div>
+          </div>
+          <span>•</span>
+          <p>{{ p.publishDate }}</p>
         </div>
-      </div>
-      <div class="prose prose-invert prose-lg max-w-none text-brand-light/90" [innerHTML]="post()?.content | safeHtml"></div>
+      </header>
+
+      <img [ngSrc]="p.imageUrl" [alt]="p.title" width="1200" height="630" priority class="rounded-lg shadow-lg mb-8 w-full aspect-video object-cover">
+
+      <div class="prose prose-invert prose-lg max-w-none text-brand-light/90" [innerHTML]="p.content | safeHtml"></div>
+    
+      <footer class="mt-12 pt-8 border-t border-gold/20">
+        <h3 class="text-2xl font-bold text-gold mb-4">O autorovi</h3>
+        <div class="flex items-start gap-4 bg-black/30 p-6 rounded-lg">
+          <img [ngSrc]="p.author.imageUrl" [alt]="p.author.name" width="80" height="80" class="w-20 h-20 rounded-full object-cover">
+          <div>
+            <h4 class="text-xl font-bold text-brand-light">{{ p.author.name }}</h4>
+            <p class="text-gold">{{ p.author.title }}</p>
+            <!-- A short bio could be added to the Stylist model and displayed here -->
+          </div>
+        </div>
+      </footer>
     </article>
   } @else {
-    <div class="text-center">
-      <h2 class="text-2xl font-bold text-red-400">Príspevok nebol nájdený</h2>
-      <a routerLink="/blog" class="mt-4 inline-block text-gold hover:underline">Späť na blog</a>
+    <div class="text-center py-16">
+      <h2 class="text-2xl font-bold text-red-400">404 - Príspevok nebol nájdený</h2>
+      <p class="text-brand-light/80 mt-2">Zdá sa, že príspevok, ktorý hľadáte, neexistuje.</p>
+      <a routerLink="/blog" class="mt-6 inline-block text-gold hover:underline font-semibold">Späť na všetky príspevky</a>
     </div>
   }
 </div>

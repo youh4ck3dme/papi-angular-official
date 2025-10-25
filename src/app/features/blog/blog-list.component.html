@@ -7,17 +7,29 @@
   @if (isLoading()) {
     <div class="text-center">Načítavam príspevky...</div>
   } @else {
-    <div class="space-y-8">
+    <div class="space-y-12">
       @for (post of posts(); track post.id) {
-        <article class="bg-black/30 p-6 rounded-lg shadow-lg hover:shadow-gold/20 transition-shadow duration-300">
-          <h2 class="text-2xl font-bold text-gold mb-2">
-            <a [routerLink]="['/blog', post.slug]" class="hover:underline">{{ post.title }}</a>
-          </h2>
-          <div class="text-sm text-brand-light/60 mb-4">
-            <span>Publikované: {{ post.publishDate }}</span> | <span>Autor: {{ post.author }}</span>
+        <article class="bg-black/30 p-6 rounded-lg shadow-lg hover:shadow-gold/20 transition-shadow duration-300 flex flex-col md:flex-row gap-6 items-center">
+          <div class="md:w-1/3">
+            <a [routerLink]="['/blog', post.slug]">
+              <img [ngSrc]="post.imageUrl" [alt]="post.title" width="400" height="400" class="rounded-md aspect-video md:aspect-square object-cover w-full">
+            </a>
           </div>
-          <p class="text-brand-light/80">{{ post.perex }}</p>
-          <a [routerLink]="['/blog', post.slug]" class="inline-block mt-4 text-gold font-semibold hover:underline">Čítať viac &rarr;</a>
+          <div class="md:w-2/3">
+            <h2 class="text-2xl font-bold text-gold mb-2">
+              <a [routerLink]="['/blog', post.slug]" class="hover:underline">{{ post.title }}</a>
+            </h2>
+            <div class="text-sm text-brand-light/60 mb-4 flex items-center gap-4">
+               <div class="flex items-center gap-2">
+                <img [ngSrc]="post.author.imageUrl" [alt]="post.author.name" width="24" height="24" class="w-6 h-6 rounded-full object-cover">
+                <span>{{ post.author.name }}</span>
+               </div>
+              <span>•</span>
+              <span>{{ post.publishDate }}</span>
+            </div>
+            <p class="text-brand-light/80">{{ post.perex }}</p>
+            <a [routerLink]="['/blog', post.slug]" class="inline-block mt-4 text-gold font-semibold hover:underline">Čítať viac &rarr;</a>
+          </div>
         </article>
       }
     </div>

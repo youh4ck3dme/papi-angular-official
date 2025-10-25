@@ -1,5 +1,7 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
 import { of, Observable } from 'rxjs';
+import { Stylist } from '../models';
+import { FirebaseService } from './firebase.service';
 
 export interface BlogPost {
   id: number;
@@ -7,21 +9,29 @@ export interface BlogPost {
   slug: string;
   perex: string;
   content: string;
-  author: string;
+  authorId: string; // Link to Stylist ID
   publishDate: string;
+  imageUrl: string; // For og:image
+}
+
+export interface BlogPostWithAuthor extends BlogPost {
+  author: Stylist;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class BlogService {
+  private firebaseService = inject(FirebaseService);
+
   private readonly posts = signal<BlogPost[]>([
     {
       id: 1,
       title: '„Môj príbeh v pár slovách – od ulice po svetové pódiá“',
       slug: 'moj-pribeh-v-par-slovach',
-      author: 'Róbert Papcun',
+      authorId: 'papi',
       publishDate: '2024-07-15',
+      imageUrl: 'https://picsum.photos/seed/papi-story/1200/630',
       perex: 'Volám sa Róbert Papcun, pochádzam z Košíc a dnes mám 35 rokov. Moja cesta ku kaderníctvu sa začala už v detstve – rád som sledoval, ako strihajú mojich rodičov. Fascinovalo ma, ako sa ľudia menia pred mojimi očami.',
       content: `
         <p class="mb-4">Volám sa Róbert Papcun, pochádzam z Košíc a dnes mám 35 rokov. Moja cesta ku kaderníctvu sa začala už v detstve – rád som sledoval, ako strihajú mojich rodičov. Fascinovalo ma, ako sa ľudia menia pred mojimi očami.</p>
@@ -69,15 +79,53 @@ export class BlogService {
         <p class="mb-4">Dnes vediem silný tím a mám radosť z toho, že viacerí ľudia, ktorí kedysi pracovali ako moji zamestnanci, majú dnes vlastné úspešné salóny. Viem, že ich to inšpirovalo ísť si za svojimi snami, tak ako som si za nimi išiel ja.</p>
         <p class="mb-4">Motivujem mladých ľudí, školím po celom Slovensku a Česku a rodina je môj pevný základ – zdroj energie na nové výzvy.</p>
       `
+    },
+    {
+      id: 2,
+      title: '5 Tipov pre dokonalú Balayage, ktorá vydrží',
+      slug: '5-tipov-pre-dokonalu-balayage',
+      authorId: 'miska',
+      publishDate: '2024-07-18',
+      imageUrl: 'https://picsum.photos/seed/balayagetips/1200/630',
+      perex: 'Balayage je umenie, ktoré si vyžaduje nielen zručnosť, ale aj správnu starostlivosť. Ako Creative Hair Artist vám prinášam 5 osvedčených tipov, ako si udržať vašu farbu žiarivú a vlasy zdravé čo najdlhšie.',
+      content: `<p>Balayage je stále jednou z najžiadanejších techník farbenia. Tu je mojich 5 tipov...</p>`
+    },
+    {
+      id: 3,
+      title: 'Tajomstvo perfektne upravenej brady',
+      slug: 'tajomstvo-perfektne-upravenej-brady',
+      authorId: 'mato',
+      publishDate: '2024-07-12',
+      imageUrl: 'https://picsum.photos/seed/beardtips/1200/630',
+      perex: 'Brada je vizitkou moderného muža. Ako profesionálny barber vám ukážem, že starostlivosť o bradu je rituál, ktorý zahŕňa správne produkty, techniku a pravidelnosť.',
+      content: `<p>Starostlivosť o bradu je viac než len zastrihávanie. Poďme sa pozrieť na kľúčové kroky...</p>`
     }
   ]);
 
-  getPosts(): Observable<BlogPost[]> {
-    return of(this.posts());
+  getPosts(): Observable<BlogPostWithAuthor[]> {
+    const authors = this.firebaseService.stylists();
+    const authorMap = new Map(authors.map(a => [a.id, a]));
+    
+    const postsWithAuthors = this.posts().map(post => ({
+        ...post,
+        author: authorMap.get(post.authorId) || this.getUnknownAuthor(post.authorId)
+    })).sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime());
+
+    return of(postsWithAuthors);
   }
 
-  getPostBySlug(slug: string): Observable<BlogPost | undefined> {
+  getPostBySlug(slug: string): Observable<BlogPostWithAuthor | undefined> {
     const post = this.posts().find(p => p.slug === slug);
-    return of(post);
+    if (!post) {
+      return of(undefined);
+    }
+
+    const author = this.firebaseService.stylists().find(a => a.id === post.authorId) || this.getUnknownAuthor(post.authorId);
+    
+    return of({ ...post, author });
+  }
+  
+  private getUnknownAuthor(id: string): Stylist {
+      return { id, name: 'Neznámy autor', title: 'Člen tímu', imageUrl: 'https://picsum.photos/seed/unknown/100/100', services: [] };
   }
 }
