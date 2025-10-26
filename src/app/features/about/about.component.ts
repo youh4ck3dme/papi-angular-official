@@ -34,7 +34,7 @@ export class AboutComponent {
       name: 'Maťo',
       title: 'Professional Barber',
       // TODO: Replace with actual, optimized image for production.
-      imageUrl: 'https://scontent.fksc1-1.fna.fbcdn.net/v/t39.30808-6/470199320_18481846690022259_180762836107453089_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=X5gQi2RRCzYQ7kNvwFaLA0W&_nc_oc=AdkKdLZOmgVsfPZZOFDGN_zpJS_2yKH7i13kHhAkx7tBTMUWUnYvhfl34BjQsL8FN0s&_nc_zt=23&_nc_ht=scontent.fksc1-1.fna&_nc_gid=OFAcToxHbYiQJHhOoe9IrQ&oh=00_AfdkiJFHZVSxuNGDeJ4ELHUAsVm8Hb9QmlM8LxY0JDsWJA&oe=69034837',
+      imageUrl: 'https://cloud.papihairdesign.sk/wp-content/uploads/2025/10/mato.webp',
       description: 'Špecialista na pánske strihy a úpravu brady s moderným prístupom. Majster klasických aj moderných techník strihánia.',
       skills: ['Pánske strihanie', 'Brada & fúzy', 'Klasické strihy', 'Fade techniques']
     },
@@ -42,7 +42,7 @@ export class AboutComponent {
       name: 'Miška',
       title: 'Creative Hair Artist',
       // TODO: Replace with actual, optimized image for production.
-      imageUrl: 'https://picsum.photos/seed/miska/400/500',
+      imageUrl: 'https://cloud.papihairdesign.sk/wp-content/uploads/2025/10/miska.webp',
       description: 'Kreativita a moderné techniky sú jej silnou stránkou. Expertka na farebné transformácie a najnovšie trendy v kaderníctve.',
       skills: ['Dámske strihanie', 'Melír & farba', 'Styling']
     }

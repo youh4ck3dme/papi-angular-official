@@ -1,0 +1,24 @@
+.hero-section {
+  /* Full-bleed container breakout */
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+@keyframes pulse-shadow {
+  0%, 100% {
+    /* Corresponds to shadow-lg with gold color */
+    box-shadow: 0 10px 15px -3px rgba(212, 175, 55, 0.2), 0 4px 6px -4px rgba(212, 175, 55, 0.2);
+  }
+  50% {
+    /* A slightly larger, more intense shadow */
+    box-shadow: 0 20px 25px -5px rgba(212, 175, 55, 0.3), 0 8px 10px -6px rgba(212, 175, 55, 0.3);
+  }
+}
+
+.btn-pulse-shadow {
+  animation: pulse-shadow 3s ease-in-out infinite;
+}
