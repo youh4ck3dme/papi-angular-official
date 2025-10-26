@@ -1,5 +1,6 @@
 import { Injectable, signal, inject } from '@angular/core';
 import { of, Observable } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { Stylist } from '../models';
 import { FirebaseService } from './firebase.service';
 
@@ -111,18 +112,18 @@ export class BlogService {
         author: authorMap.get(post.authorId) || this.getUnknownAuthor(post.authorId)
     })).sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime());
 
-    return of(postsWithAuthors);
+    return of(postsWithAuthors).pipe(delay(1000));
   }
 
   getPostBySlug(slug: string): Observable<BlogPostWithAuthor | undefined> {
     const post = this.posts().find(p => p.slug === slug);
     if (!post) {
-      return of(undefined);
+      return of(undefined).pipe(delay(500));
     }
 
     const author = this.firebaseService.stylists().find(a => a.id === post.authorId) || this.getUnknownAuthor(post.authorId);
     
-    return of({ ...post, author });
+    return of({ ...post, author }).pipe(delay(500));
   }
   
   private getUnknownAuthor(id: string): Stylist {

@@ -4,3 +4,4 @@ export * from './notification/notification.component';
 export * from './product-card/product-card.component';
 export * from './gallery/gallery-card/gallery-card.component';
 export * from './gallery/gallery.component';
+export * from './instagram-feed/instagram-feed.component';

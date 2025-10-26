@@ -3,13 +3,14 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { SeoService } from '../../core/services';
 import { RevealOnScrollDirective } from '../../shared/directives';
+import { InstagramFeedComponent } from '../../shared/components';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, RouterLink, NgOptimizedImage, RevealOnScrollDirective]
+  imports: [CommonModule, RouterLink, NgOptimizedImage, RevealOnScrollDirective, InstagramFeedComponent]
 })
 export class HomeComponent {
   private seoService = inject(SeoService);

@@ -9,3 +9,4 @@ export * from './gemini.service'; // Keep for future use
 export * from './notification.service';
 export * from './product.service';
 export * from './seo.service';
+export * from './instagram.service';

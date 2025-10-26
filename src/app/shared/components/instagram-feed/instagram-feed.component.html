@@ -1,0 +1,30 @@
+<section class="py-20 text-center" appRevealOnScroll>
+  <h2 class="text-3xl md:text-4xl font-bold text-gold mb-4">Sledujte nás na Instagrame</h2>
+  <p class="text-lg text-brand-light/80 mb-12 max-w-2xl mx-auto">
+    Inšpirujte sa našou prácou, sledujte najnovšie trendy a nahliadnite do zákulisia PAPI Hair Design.
+  </p>
+
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-7xl mx-auto">
+    @if (isLoading()) {
+      @for (_ of [1,2,3,4,5,6]; track $index) {
+        <div class="aspect-square bg-gray-800/50 rounded-lg animate-pulse"></div>
+      }
+    } @else {
+      @for (post of posts(); track post.id; let i = $index) {
+        <a [href]="post.permalink" target="_blank" rel="noopener noreferrer" class="group relative block overflow-hidden rounded-lg aspect-square"
+           appRevealOnScroll [appRevealOnScrollDelay]="i * 100">
+          <img [ngSrc]="post.imageUrl" [alt]="post.caption" width="500" height="500" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300">
+          <div class="absolute inset-0 bg-black/70 flex items-center justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <p class="text-white text-sm">{{ post.caption }}</p>
+          </div>
+        </a>
+      }
+    }
+  </div>
+
+  <div class="mt-12">
+    <a href="https://www.instagram.com/papi_hair_design/" target="_blank" rel="noopener noreferrer" class="inline-block bg-white/10 border border-gold/50 text-white font-bold py-3 px-8 rounded-full hover:bg-white/20 transition-transform transform hover:scale-105 duration-300">
+      @papi_hair_design
+    </a>
+  </div>
+</section>
